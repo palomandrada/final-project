@@ -6,7 +6,7 @@ const NavigationBar = () => {
     <Navbar expand="lg" className="navbar-custom">
       <Container>
         <Navbar.Brand href="/" className="text-white">Recipe Finder</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggler" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link href="/" className="text-white">Home</Nav.Link>
@@ -20,3 +20,4 @@ const NavigationBar = () => {
 };
 
 export default NavigationBar;
+
