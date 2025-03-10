@@ -1,16 +1,15 @@
-/* Navbar fixed at the top */
+/*-------------------------------------------------------------*/
+/* Navbar - Fixed at the Top */
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; 
-  }
-  
-/* Transparent Navbar */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
 .navbar-custom {
   background: transparent !important;
-  position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
@@ -23,29 +22,23 @@
   transition: color 0.3s ease-in-out;
 }
 
-.navbar-custom .nav-link:hover {
-  color: #ffcc00 !important; 
-}
-
-.custom-toggler .navbar-toggler-icon {
-  filter: brightness(0) invert(1); 
-}
-
 .navbar-custom .nav-link:hover,
 .navbar-custom .nav-link:focus {
-  color: #f9e389 !important; /* Highlight color on hover */
+  color: #ffcc00 !important;
+}
+
+/* Navbar toggler (hamburger menu) icon color */
+.custom-toggler .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
 }
 
 /* Fix layout so content does not go under navbar */
 .app-container {
-  padding-top: 70px; /* Adjust for navbar height */
+  padding-top: 70px;
 }
 
-
 /*-------------------------------------------------------------*/
-
-
-/* Full-page container */
+/* Background */
 .app-container {
   position: relative;
   height: 100vh;
@@ -57,7 +50,6 @@
   overflow: hidden;
 }
 
-/* Background image */
 .background {
   position: absolute;
   top: 0;
@@ -67,7 +59,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: opacity 1.5s ease-in-out; 
+  transition: opacity 1.5s ease-in-out;
   z-index: -2;
 }
 
@@ -80,77 +72,159 @@
   height: 100%;
   background: black;
   opacity: 0;
-  transition: opacity 2s ease-in-out; 
+  transition: opacity 2s ease-in-out;
   z-index: -1;
 }
 
-/* Apply fade effect */
 .fade-to-black {
   opacity: 1;
 }
 
 /*-------------------------------------------------------------*/
-/* Center the search section */
-  .search-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center; 
-  }
-  
-  /* Center the input field text */
-  .search-bar input {
-    font-size: 1.2rem; 
-    padding: 2px;
-    text-align: center; 
-    border-radius: 5px;
-  }
-  
-  /* Style the button */
-  .search-bar button {
-    font-size: 1.2rem;
-    padding: 10px 25px;
-    border-radius: 5px;
-    color: rgb(33, 33, 33);
-    background-color: #f9e389;
-    border: none;
-  }
+/* Search Bar */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  min-height: 150px;
+  width: 100%;
+  padding: 20px;
+  margin-top: 120px;
+}
 
-  .search-bar .button:hover {
-    background-color: rgb(33, 33, 33) ;
-    color: #f9e389;
-  }
-  
-  /*-------------------------------------------------------------*/
-  /* Recepies results*/
+/* Search Input */
+.search-bar input {
+  font-size: 1.3rem;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+  min-width: 280px;
+  border: 2px solid white;
+  background: rgba(255, 255, 255, 0.7);
+  color: white;
+  transition: all 0.3s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .recipe-results {
-    width: 90%;
-    margin: 20px auto;
-  }
-  
-  .recipe-card {
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    cursor: pointer;
-  }
-  
-  .recipe-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .recipe-card img {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  /* Popular recipes title */
-  .recipe-results h3 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #ffcc00;
-  }
-  
+/* Input Hover and Focus */
+.search-bar input:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: #ffcc00;
+}
+
+.search-bar input:focus {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: #ffcc00;
+  outline: none;
+  box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.8);
+}
+
+/* Search Button */
+.search-button {
+  white-space: nowrap;
+  max-width: 200px;
+  padding: 10px 15px;
+  font-size: 1rem;
+}
+
+/* Search Button Styling */
+.search-bar button {
+  font-size: 1.2rem;
+  padding: 10px 25px;
+  border-radius: 5px;
+  color: rgb(33, 33, 33);
+  background-color: #f9e389;
+  border: none;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.search-bar button:hover {
+  background-color: rgb(33, 33, 33);
+  color: #f9e389;
+}
+
+/*-------------------------------------------------------------*/
+/* Search Bar Layouts */
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+  flex-wrap: nowrap;
+}
+
+.search-stacked {
+  flex-direction: column;
+  gap: 15px;
+}
+
+.search-inline {
+  flex-direction: row;
+}
+
+/*-------------------------------------------------------------*/
+/* Recipes Section */
+.recipe-results {
+  min-height: 350px;
+  width: 90%;
+  margin: 20px auto;
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Fix Overlapping */
+.recipe-results .row {
+  margin-top: 40px;
+}
+
+/* "No recipes found" message */
+.no-results-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: white;
+  margin-top: 30px;
+  min-height: 50px;
+}
+
+/*-------------------------------------------------------------*/
+/* Recipe Cards */
+.recipe-card {
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Recipe Card Hover */
+.recipe-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Recipe Card Image */
+.recipe-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Popular recipes title */
+.recipe-results h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffcc00;
+}

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import NavigationBar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
+import SearchResults from "./pages/SearchResults"; 
+import { fetchRecipes } from "./api/recipes";
 import "./styles.css";
 
 const backgroundImages = [
@@ -12,50 +15,57 @@ const backgroundImages = [
   "/img/background6.jpg",
 ];
 
-const IMAGE_CHANGE_INTERVAL = 8000; // Change every 8 seconds
-const FADE_OUT_DURATION = 2000; // Fade-out to black lasts 3 seconds
-const BLACK_SCREEN_DURATION = 100; // Stay black for 0.1 seconds
-
 const App = () => {
   const [currentBackground, setCurrentBackground] = useState(0);
   const [fade, setFade] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFade(true); // Start fade-out effect 
-
+      setFade(true);
       setTimeout(() => {
         setCurrentBackground((prev) => (prev + 1) % backgroundImages.length);
-        
         setTimeout(() => {
-          setFade(false); // Start fade-in effect (after 0.5s black screen)
-        }, BLACK_SCREEN_DURATION);
-        
-      }, FADE_OUT_DURATION); 
-
-    }, IMAGE_CHANGE_INTERVAL); 
+          setFade(false);
+        }, 100);
+      }, 2000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, []);
 
+  const handleSearch = async (query) => {
+    if (!query.trim()) return;
+    try {
+      const fetchedRecipes = await fetchRecipes(query);
+      navigate("/search", { state: { recipes: fetchedRecipes, fromSearch: true } }); // ✅ Pass "fromSearch" flag
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
+  };
+
   return (
     <div className="app-container">
-      {/* Black fade-out overlay */}
       <div className={`fade-overlay ${fade ? "fade-to-black" : ""}`}></div>
-
-      {/* Background image */}
-      <div
-        className="background"
-        style={{ backgroundImage: `url(${backgroundImages[currentBackground]})` }}
-      ></div>
-
+      <div className="background" style={{ backgroundImage: `url(${backgroundImages[currentBackground]})` }}></div>
       <NavigationBar />
-      <div className="search-container">
-        <h1 className="text-white">Find Your Perfect Recipe</h1>
-        <SearchBar />
-      </div>
+
+      {/* ✅ Show search bar only on homepage */}
+      {location.pathname === "/" && (
+        <div className="search-container">
+          <h1 className="text-white">Find Your Perfect Recipe</h1>
+          <SearchBar onSearch={handleSearch} layout="stacked" />
+        </div>
+      )}
+
+      <Routes>
+        <Route path="/" element={<div />} /> {/* Home Page */}
+        <Route path="/search" element={<SearchResults />} /> {/* Search Page */}
+      </Routes>
     </div>
   );
 };
 
 export default App;
+

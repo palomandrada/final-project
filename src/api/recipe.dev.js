@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var API_KEY = "44123451b6b1434896b7920b7b68173f";
 var API_URL = "https://api.spoonacular.com/recipes";
 /**
- * Fetch recipes based on ingredients
+ * Fetch recipes based on multiple ingredients
  * @param {string} ingredients - Comma-separated list of ingredients
  */
 
@@ -27,7 +27,9 @@ var fetchRecipes = function fetchRecipes(ingredients) {
           return regeneratorRuntime.awrap(_axios["default"].get("".concat(API_URL, "/findByIngredients"), {
             params: {
               ingredients: ingredients,
+              // Supports multiple ingredients
               number: 10,
+              // Number of results to fetch
               apiKey: API_KEY
             }
           }));
@@ -50,7 +52,7 @@ var fetchRecipes = function fetchRecipes(ingredients) {
   }, null, null, [[0, 7]]);
 };
 /**
- * Fetch random popular recipes
+ * Fetch popular recipes of the week
  */
 
 
@@ -67,6 +69,7 @@ var fetchPopularRecipes = function fetchPopularRecipes() {
           return regeneratorRuntime.awrap(_axios["default"].get("".concat(API_URL, "/random"), {
             params: {
               number: 3,
+              // Get 3 random popular recipes
               apiKey: API_KEY
             }
           }));
