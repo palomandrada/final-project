@@ -13,13 +13,13 @@ const SearchResults = () => {
   const [popularRecipes, setPopularRecipes] = useState([]);
   const [showPopular, setShowPopular] = useState(!location.state?.fromSearch);
   const [hasSearched, setHasSearched] = useState(!!location.state?.fromSearch);
+  const [searchQuery, setSearchQuery] = useState(location.state?.searchQuery || "your ingredients"); // ✅ Stores dynamic search query
 
   useEffect(() => {
     if (recipes.length === 0 && showPopular) {
       const getPopularRecipes = async () => {
         const data = await fetchPopularRecipes();
-        console.log("Fetched Popular Recipes:", data); // ✅ Debugging
-        setPopularRecipes(data.slice(0, 9)); // ✅ Ensure we're displaying 9 recipes
+        setPopularRecipes(data.slice(0, 9)); // ✅ Display 9 popular recipes
       };
       getPopularRecipes();
     }
@@ -32,6 +32,7 @@ const SearchResults = () => {
       setRecipes(fetchedRecipes);
       setShowPopular(false);
       setHasSearched(true);
+      setSearchQuery(query); // ✅ Updates the search query dynamically
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
@@ -53,7 +54,7 @@ const SearchResults = () => {
           <h3 className="text-dark text-center mt-4">🍽️ Searching for ideas? Try these tasty recipes</h3>
           <Row className="g-4">
             {popularRecipes.map((recipe) => (
-              <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}> {/* 2 columns, 1 for mobile*/}
+              <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}> {/* ✅ 2 Columns */}
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
@@ -64,11 +65,11 @@ const SearchResults = () => {
       {/* ✅ Show Search Results */}
       {recipes.length > 0 && (
         <Container className="recipe-results">
-          {/* ✅ Show title above results */}
-          <h3 className="text-white text-center mt-4">Recipes with {location.state?.searchQuery}:</h3>
+          {/* ✅ Show title above results, dynamically updated */}
+          <h3 className="text-dark text-center mt-4">Recipes with {searchQuery}:</h3>
           <Row className="g-4">
             {recipes.map((recipe) => (
-              <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}> {/*2 columns, 1 for mobile */}
+              <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}> {/* ✅ 2 Columns */}
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
@@ -78,10 +79,11 @@ const SearchResults = () => {
 
       {/* ✅ Show "No recipes found" message ONLY if a search was made */}
       {hasSearched && recipes.length === 0 && (
-        <p className="text-white mt-3 text-center">No recipes found.</p>
+        <p className="text-dark mt-3 text-center">No recipes found.</p>
       )}
     </div>
   );
 };
 
 export default SearchResults;
+
