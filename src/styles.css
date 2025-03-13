@@ -1,5 +1,7 @@
 /*-------------------------------------------------------------*/
-/* Navbar - Fixed at the Top */
+/* 🟡 NAVIGATION BAR */
+/*-------------------------------------------------------------*/
+
 .navbar {
   position: fixed;
   top: 0;
@@ -9,11 +11,18 @@
 }
 
 .navbar-custom {
-  background: transparent !important;
   width: 100%;
-  top: 0;
-  z-index: 1000;
   padding: 15px 20px;
+}
+
+/* Transparent Navbar for Homepage */
+.navbar-transparent {
+  background: transparent !important;
+}
+
+/* Black Navbar for Other Pages */
+.navbar-black {
+  background: rgba(0, 0, 0, 0.5) !important;
 }
 
 .navbar-custom .nav-link {
@@ -24,7 +33,7 @@
 
 .navbar-custom .nav-link:hover,
 .navbar-custom .nav-link:focus {
-  color: #ffcc00 !important;
+  color: #f9e389 !important;
 }
 
 /* Navbar toggler (hamburger menu) icon color */
@@ -32,16 +41,13 @@
   filter: brightness(0) invert(1);
 }
 
-/* Fix layout so content does not go under navbar */
-.app-container {
-  padding-top: 70px;
-}
-
 /*-------------------------------------------------------------*/
-/* Background */
+/* 🟡 BACKGROUND STYLES */
+/*-------------------------------------------------------------*/
+
 .app-container {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +69,7 @@
   z-index: -2;
 }
 
-/* Black fade-out overlay */
+/* Fade-out overlay */
 .fade-overlay {
   position: absolute;
   top: 0;
@@ -81,7 +87,23 @@
 }
 
 /*-------------------------------------------------------------*/
-/* Search Bar */
+/* 🟡 SEARCH RESULTS PAGE BACKGROUND */
+/*-------------------------------------------------------------*/
+
+.search-results-bg {
+  background: linear-gradient(rgba(249, 227, 137, 0), rgba(249, 227, 137, 0.9)), 
+              url('/public/img/TryRecipesBackground.jpg') no-repeat center center/cover;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*-------------------------------------------------------------*/
+/* 🟡 SEARCH BAR */
+/*-------------------------------------------------------------*/
+
 .search-container {
   display: flex;
   flex-direction: column;
@@ -92,17 +114,37 @@
   min-height: 150px;
   width: 100%;
   padding: 20px;
-  margin-top: 120px;
 }
 
-/* Search Input */
+/* Search bar styling */
+.search-box {
+  background: rgba(0, 0, 0, 0.5); /* Dark background for contrast */
+  padding: 20px 40px;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-box h2 {
+  color: white;
+  font-size: 1.6rem;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Search input */
 .search-bar input {
   font-size: 1.3rem;
-  padding: 10px;
+  padding: 6px;
   text-align: center;
   border-radius: 5px;
   width: 100%;
-  max-width: 400px;
+  max-width: 800px;
   min-width: 280px;
   border: 2px solid white;
   background: rgba(255, 255, 255, 0.7);
@@ -113,29 +155,20 @@
   text-overflow: ellipsis;
 }
 
-/* Input Hover and Focus */
+/* Input hover and focus */
 .search-bar input:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: #ffcc00;
+  border-color: #f9e389;
 }
 
 .search-bar input:focus {
-  background: rgba(255, 255, 255, 0.4);
-  border-color: #ffcc00;
+  background: rgba(255, 255, 255);
+  border-color: #f9e389;
   outline: none;
-  box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.8);
 }
 
-/* Search Button */
-.search-button {
-  white-space: nowrap;
-  max-width: 200px;
-  padding: 10px 15px;
-  font-size: 1rem;
-}
-
-/* Search Button Styling */
+/* Search button */
 .search-bar button {
+  white-space: nowrap;  /* Ensures text stays in one line */
   font-size: 1.2rem;
   padding: 10px 25px;
   border-radius: 5px;
@@ -151,7 +184,9 @@
 }
 
 /*-------------------------------------------------------------*/
-/* Search Bar Layouts */
+/* 🟡 SEARCH BAR LAYOUTS */
+/*-------------------------------------------------------------*/
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -160,6 +195,7 @@
   width: 100%;
   max-width: 800px;
   flex-wrap: nowrap;
+  padding-top: 10px;
 }
 
 .search-stacked {
@@ -172,12 +208,15 @@
 }
 
 /*-------------------------------------------------------------*/
-/* Recipes Section */
+/* 🟡 RECIPE RESULTS */
+/*-------------------------------------------------------------*/
+
+/* Hide when no results */
 .recipe-results {
-  min-height: 350px;
+  display: none;
   width: 90%;
   margin: 20px auto;
-  padding-top: 60px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -185,9 +224,14 @@
   position: relative;
 }
 
-/* Fix Overlapping */
+/* Show results only when there are recipes */
+.recipe-results:has(.row) {
+  display: flex;
+}
+
+/* Fix overlapping */
 .recipe-results .row {
-  margin-top: 40px;
+  margin-top: 4px;
 }
 
 /* "No recipes found" message */
@@ -200,31 +244,61 @@
 }
 
 /*-------------------------------------------------------------*/
-/* Recipe Cards */
+/* 🟡 CARDS */
+/*-------------------------------------------------------------*/
+
+/* Updated Recipe Card Styling */
 .recipe-card {
-  height: 100%;
-  border-radius: 10px;
+  border-radius: 8px; /* Reduced border-radius */
   overflow: hidden;
+  position: relative;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   cursor: pointer;
-  position: relative;
 }
 
-/* Recipe Card Hover */
-.recipe-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Recipe Card Image */
-.recipe-card img {
-  height: 200px;
+/* Card Image */
+.recipe-card .card-img {
+  height: 250px;
   object-fit: cover;
 }
 
-/* Popular recipes title */
-.recipe-results h3 {
-  font-size: 1.8rem;
+/* Image Overlay */
+.recipe-card .card-img-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(32,36,41,1) 89%);
+  padding: 15px;
+  text-align: left;
+  border: none !important;
+}
+
+/* Recipe Title */
+.recipe-title {
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #ffcc00;
+  text-transform: capitalize;
+}
+
+/* Description Styling */
+.recipe-description {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 5px;
+}
+
+/*  Recipe Tags */
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.recipe-tag {
+  background: rgb(0, 0, 0, 0.6) !important;
+  color: rgb(255, 255, 255);
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
 }

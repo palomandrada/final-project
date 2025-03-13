@@ -39,7 +39,7 @@ const App = () => {
     if (!query.trim()) return;
     try {
       const fetchedRecipes = await fetchRecipes(query);
-      navigate("/search", { state: { recipes: fetchedRecipes, fromSearch: true } }); // ✅ Pass "fromSearch" flag
+      navigate("/search", { state: { recipes: fetchedRecipes, fromSearch: true } }); // Pass "fromSearch" flag
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
@@ -51,7 +51,7 @@ const App = () => {
       <div className="background" style={{ backgroundImage: `url(${backgroundImages[currentBackground]})` }}></div>
       <NavigationBar />
 
-      {/* ✅ Show search bar only on homepage */}
+      {/* Show search bar only on homepage */}
       {location.pathname === "/" && (
         <div className="search-container">
           <h1 className="text-white">Find Your Perfect Recipe</h1>
@@ -61,7 +61,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<div />} /> {/* Home Page */}
-        <Route path="/search" element={<SearchResults />} /> {/* Search Page */}
+        <Route path="/search" element={<SearchResults/>} /> {/* Search Page */}
       </Routes>
     </div>
   );
