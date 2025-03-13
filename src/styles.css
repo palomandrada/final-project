@@ -22,7 +22,7 @@
 
 /* Black Navbar for Other Pages */
 .navbar-black {
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgb(33, 33, 33) !important;
 }
 
 .navbar-custom .nav-link {
@@ -91,8 +91,7 @@
 /*-------------------------------------------------------------*/
 
 .search-results-bg {
-  background: linear-gradient(rgba(249, 227, 137, 0), rgba(249, 227, 137, 0.9)), 
-              url('/public/img/TryRecipesBackground.jpg') no-repeat center center/cover;
+  background: url('/public/img/TryRecipesBackground.jpg');
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -118,7 +117,7 @@
 
 /* Search bar styling */
 .search-box {
-  background: rgba(0, 0, 0, 0.5); /* Dark background for contrast */
+  background: rgba(33, 33, 33); /* Dark background for contrast */
   padding: 20px 40px;
   border-radius: 10px;
   max-width: 800px;
@@ -214,7 +213,7 @@
 /* Hide when no results */
 .recipe-results {
   display: none;
-  width: 90%;
+  width: 80%;
   margin: 20px auto;
   padding: 0;
   display: flex;
@@ -254,11 +253,12 @@
   position: relative;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   cursor: pointer;
+  border: 1px #f9e389;
 }
 
 /* Card Image */
 .recipe-card .card-img {
-  height: 250px;
+  height: 350px;
   object-fit: cover;
 }
 
@@ -267,10 +267,14 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(32,36,41,1) 89%);
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(32,36,41,0.4) 89%);
   padding: 15px;
   text-align: left;
   border: none !important;
+}
+
+.recipe-card:hover {
+  border: 2px #f9e389;
 }
 
 /* Recipe Title */
@@ -295,7 +299,7 @@
 }
 
 .recipe-tag {
-  background: rgb(0, 0, 0, 0.6) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
   color: rgb(255, 255, 255);
   font-size: 0.8rem;
   padding: 5px 10px;

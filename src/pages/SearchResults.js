@@ -53,7 +53,7 @@ const SearchResults = () => {
           <h3 className="text-dark text-center mt-4">🍽️ Searching for ideas? Try these tasty recipes</h3>
           <Row className="g-4">
             {popularRecipes.map((recipe) => (
-              <Col key={recipe.id} xs={12} sm={6} md={4} lg={4}> {/* ✅ Always 3 columns */}
+              <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}> {/* 2 columns, 1 for mobile*/}
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
@@ -68,7 +68,7 @@ const SearchResults = () => {
           <h3 className="text-white text-center mt-4">Recipes with {location.state?.searchQuery}:</h3>
           <Row className="g-4">
             {recipes.map((recipe) => (
-              <Col key={recipe.id} xs={12} sm={6} md={4} lg={4}> {/* ✅ Ensures 3 columns */}
+              <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}> {/*2 columns, 1 for mobile */}
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
