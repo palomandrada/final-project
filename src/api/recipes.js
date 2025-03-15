@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = "44123451b6b1434896b7920b7b68173f";
+const API_KEY = "52629ed0202749539cb832fe52e74cf2";
 const API_URL = "https://api.spoonacular.com/recipes";
 
 /**
@@ -29,14 +29,21 @@ export const fetchRecipes = async (ingredients) => {
         params: { apiKey: API_KEY }
       });
 
+      const recipeTags = [
+        ...(detailsResponse.data.diets || []),
+        ...(detailsResponse.data.dishTypes || []),
+        ...(detailsResponse.data.cuisines || [])
+      ].filter(tag => tag); // ✅ Removes empty values
+
+      console.log(`Recipe ID: ${recipe.id} Tags:`, recipeTags); // 🔍 Debugging output
+
       return {
         id: recipe.id,
-        title: stripHtml(detailsResponse.data.title), // ✅ Strips any HTML tags from title
+        title: recipe.title,
         image: recipe.image,
-        description: stripHtml(detailsResponse.data.summary) || "No description available", // ✅ Cleans description
-        readyInMinutes: detailsResponse.data.readyInMinutes, // ✅ Prep Time
-        servings: detailsResponse.data.servings, // ✅ Servings
-        tags: [...detailsResponse.data.diets, ...detailsResponse.data.dishTypes, ...detailsResponse.data.cuisines].filter(tag => tag)
+        readyInMinutes: detailsResponse.data.readyInMinutes,
+        servings: detailsResponse.data.servings,
+        tags: recipeTags,
       };
     }));
 
@@ -46,6 +53,8 @@ export const fetchRecipes = async (ingredients) => {
     return [];
   }
 };
+
+
 
 /**
  * Fetch random popular recipes

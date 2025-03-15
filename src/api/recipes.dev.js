@@ -17,7 +17,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var API_KEY = "44123451b6b1434896b7920b7b68173f";
+var API_KEY = "52629ed0202749539cb832fe52e74cf2";
 var API_URL = "https://api.spoonacular.com/recipes";
 /**
  * ✅ Utility function to remove HTML tags
@@ -52,7 +52,7 @@ var fetchRecipes = function fetchRecipes(ingredients) {
           response = _context2.sent;
           _context2.next = 6;
           return regeneratorRuntime.awrap(Promise.all(response.data.map(function _callee(recipe) {
-            var detailsResponse;
+            var detailsResponse, recipeTags;
             return regeneratorRuntime.async(function _callee$(_context) {
               while (1) {
                 switch (_context.prev = _context.next) {
@@ -66,23 +66,22 @@ var fetchRecipes = function fetchRecipes(ingredients) {
 
                   case 2:
                     detailsResponse = _context.sent;
+                    recipeTags = [].concat(_toConsumableArray(detailsResponse.data.diets || []), _toConsumableArray(detailsResponse.data.dishTypes || []), _toConsumableArray(detailsResponse.data.cuisines || [])).filter(function (tag) {
+                      return tag;
+                    }); // ✅ Removes empty values
+
+                    console.log("Recipe ID: ".concat(recipe.id, " Tags:"), recipeTags); // 🔍 Debugging output
+
                     return _context.abrupt("return", {
                       id: recipe.id,
-                      title: stripHtml(detailsResponse.data.title),
-                      // ✅ Strips any HTML tags from title
+                      title: recipe.title,
                       image: recipe.image,
-                      description: stripHtml(detailsResponse.data.summary) || "No description available",
-                      // ✅ Cleans description
                       readyInMinutes: detailsResponse.data.readyInMinutes,
-                      // ✅ Prep Time
                       servings: detailsResponse.data.servings,
-                      // ✅ Servings
-                      tags: [].concat(_toConsumableArray(detailsResponse.data.diets), _toConsumableArray(detailsResponse.data.dishTypes), _toConsumableArray(detailsResponse.data.cuisines)).filter(function (tag) {
-                        return tag;
-                      })
+                      tags: recipeTags
                     });
 
-                  case 4:
+                  case 6:
                   case "end":
                     return _context.stop();
                 }
