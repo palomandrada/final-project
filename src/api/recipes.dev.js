@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchPopularRecipes = exports.fetchRecipes = void 0;
+exports.fetchPopularRecipes = exports.fetchRecipeDetails = exports.fetchRecipes = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -28,7 +28,6 @@ var stripHtml = function stripHtml(html) {
 };
 /**
  * Fetch recipes based on ingredients
- * @param {string} ingredients - Comma-separated list of ingredients
  */
 
 
@@ -70,8 +69,6 @@ var fetchRecipes = function fetchRecipes(ingredients) {
                       return tag;
                     }); // ✅ Removes empty values
 
-                    console.log("Recipe ID: ".concat(recipe.id, " Tags:"), recipeTags); // 🔍 Debugging output
-
                     return _context.abrupt("return", {
                       id: recipe.id,
                       title: recipe.title,
@@ -81,7 +78,7 @@ var fetchRecipes = function fetchRecipes(ingredients) {
                       tags: recipeTags
                     });
 
-                  case 6:
+                  case 5:
                   case "end":
                     return _context.stop();
                 }
@@ -107,20 +104,72 @@ var fetchRecipes = function fetchRecipes(ingredients) {
   }, null, null, [[0, 10]]);
 };
 /**
- * Fetch random popular recipes
+ * Fetch full recipe details by ID
  */
 
 
 exports.fetchRecipes = fetchRecipes;
 
-var fetchPopularRecipes = function fetchPopularRecipes() {
-  var response;
-  return regeneratorRuntime.async(function fetchPopularRecipes$(_context3) {
+var fetchRecipeDetails = function fetchRecipeDetails(id) {
+  var response, data;
+  return regeneratorRuntime.async(function fetchRecipeDetails$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.prev = 0;
           _context3.next = 3;
+          return regeneratorRuntime.awrap(_axios["default"].get("".concat(API_URL, "/").concat(id, "/information"), {
+            params: {
+              apiKey: API_KEY
+            }
+          }));
+
+        case 3:
+          response = _context3.sent;
+          data = response.data;
+          return _context3.abrupt("return", {
+            id: data.id,
+            title: data.title,
+            image: data.image,
+            readyInMinutes: data.readyInMinutes,
+            servings: data.servings,
+            tags: [].concat(_toConsumableArray(data.diets || []), _toConsumableArray(data.dishTypes || []), _toConsumableArray(data.cuisines || [])),
+            ingredients: data.extendedIngredients.map(function (ingredient) {
+              return ingredient.original;
+            }),
+            instructions: data.analyzedInstructions.length ? data.analyzedInstructions[0].steps.map(function (step) {
+              return step.step;
+            }) : ["No instructions available."]
+          });
+
+        case 8:
+          _context3.prev = 8;
+          _context3.t0 = _context3["catch"](0);
+          console.error("Error fetching recipe details:", _context3.t0);
+          return _context3.abrupt("return", null);
+
+        case 12:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, null, null, [[0, 8]]);
+};
+/**
+ * Fetch random popular recipes
+ */
+
+
+exports.fetchRecipeDetails = fetchRecipeDetails;
+
+var fetchPopularRecipes = function fetchPopularRecipes() {
+  var response;
+  return regeneratorRuntime.async(function fetchPopularRecipes$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.prev = 0;
+          _context4.next = 3;
           return regeneratorRuntime.awrap(_axios["default"].get("".concat(API_URL, "/random"), {
             params: {
               number: 9,
@@ -129,12 +178,11 @@ var fetchPopularRecipes = function fetchPopularRecipes() {
           }));
 
         case 3:
-          response = _context3.sent;
-          return _context3.abrupt("return", response.data.recipes.map(function (recipe) {
+          response = _context4.sent;
+          return _context4.abrupt("return", response.data.recipes.map(function (recipe) {
             return {
               id: recipe.id,
               title: stripHtml(recipe.title),
-              // ✅ Fix title formatting in popular recipes too
               image: recipe.image,
               description: stripHtml(recipe.summary) || "No description available",
               readyInMinutes: recipe.readyInMinutes,
@@ -146,14 +194,14 @@ var fetchPopularRecipes = function fetchPopularRecipes() {
           }));
 
         case 7:
-          _context3.prev = 7;
-          _context3.t0 = _context3["catch"](0);
-          console.error("Error fetching popular recipes:", _context3.t0);
-          return _context3.abrupt("return", []);
+          _context4.prev = 7;
+          _context4.t0 = _context4["catch"](0);
+          console.error("Error fetching popular recipes:", _context4.t0);
+          return _context4.abrupt("return", []);
 
         case 11:
         case "end":
-          return _context3.stop();
+          return _context4.stop();
       }
     }
   }, null, null, [[0, 7]]);

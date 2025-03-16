@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import NavigationBar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./pages/SearchResults"; 
+import RecipeDetails from "./pages/RecipeDetails";
 import { fetchRecipes } from "./api/recipes";
 import "./styles.css";
 
@@ -65,10 +66,11 @@ const App = () => {
         </div>
       )}
 
-      <Routes>
-        <Route path="/" element={<div />} /> {/* Home Page */}
-        <Route path="/search" element={<SearchResults />} /> {/* Search Page */}
-      </Routes>
+<Routes>
+  <Route path="/" element={<div />} /> {/* Home Page */}
+  <Route path="/search" element={<SearchResults />} /> {/* Search Page */}
+  <Route path="/recipe/:id" element={<RecipeDetails />} /> {/* Recipe Details Page */}
+</Routes>
     </div>
   );
 };

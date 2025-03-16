@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCarrot } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SearchBar = ({ onSearch, layout = "inline" }) => {
+const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  // ✅ Detect screen size to toggle `stacked` layout
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // ✅ Tablets & Mobile use stacked
+    };
+
+    handleResize(); // Call on mount
+    window.addEventListener("resize", handleResize); // Listen for changes
+
+    return () => window.removeEventListener("resize", handleResize); // Cleanup
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -15,7 +28,7 @@ const SearchBar = ({ onSearch, layout = "inline" }) => {
 
   return (
     <Form 
-      className={`search-bar ${layout === "stacked" ? "search-stacked" : "search-inline"}`} 
+      className={`search-bar ${isMobile ? "search-stacked" : "search-inline"}`} 
       onSubmit={handleSearch}
     >
       <FormControl

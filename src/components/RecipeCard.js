@@ -1,19 +1,23 @@
 import React from "react";
 import { Card, Badge } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/recipe/${recipe.id}`, { state: { recipe } }); //Pass recipe data
+  };
+
   return (
-    <Card className="recipe-card bg-dark text-white">
+    <Card className="recipe-card bg-dark text-white" onClick={handleClick} style={{ cursor: "pointer" }}>
       <Card.Img src={recipe.image} alt={recipe.title} className="card-img" />
       <Card.ImgOverlay className="card-img-overlay">
-        {/* ✅ Ensure title exists */}
         <Card.Title className="recipe-title">{recipe.title || "Untitled Recipe"}</Card.Title>
-
-        {/* ✅ Check if recipe.tags exists before mapping */}
         <div className="recipe-tags">
           {recipe.readyInMinutes && <Badge className="recipe-tag">⏱ {recipe.readyInMinutes} min</Badge>}
           {recipe.servings && <Badge className="recipe-tag">🍽 {recipe.servings} servings</Badge>}
-          {recipe.tags?.length > 0 && recipe.tags.map((tag, index) => (
+          {recipe.tags?.map((tag, index) => (
             <Badge key={index} className="recipe-tag">{tag}</Badge>
           ))}
         </div>
@@ -23,3 +27,4 @@ const RecipeCard = ({ recipe }) => {
 };
 
 export default RecipeCard;
+

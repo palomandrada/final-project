@@ -12,7 +12,6 @@ const stripHtml = (html) => {
 
 /**
  * Fetch recipes based on ingredients
- * @param {string} ingredients - Comma-separated list of ingredients
  */
 export const fetchRecipes = async (ingredients) => {
   try {
@@ -35,8 +34,6 @@ export const fetchRecipes = async (ingredients) => {
         ...(detailsResponse.data.cuisines || [])
       ].filter(tag => tag); // ✅ Removes empty values
 
-      console.log(`Recipe ID: ${recipe.id} Tags:`, recipeTags); // 🔍 Debugging output
-
       return {
         id: recipe.id,
         title: recipe.title,
@@ -54,7 +51,34 @@ export const fetchRecipes = async (ingredients) => {
   }
 };
 
+/**
+ * Fetch full recipe details by ID
+ */
+export const fetchRecipeDetails = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/${id}/information`, {
+      params: { apiKey: API_KEY },
+    });
 
+    const data = response.data;
+
+    return {
+      id: data.id,
+      title: data.title,
+      image: data.image,
+      readyInMinutes: data.readyInMinutes,
+      servings: data.servings,
+      tags: [...(data.diets || []), ...(data.dishTypes || []), ...(data.cuisines || [])],
+      ingredients: data.extendedIngredients.map((ingredient) => ingredient.original),
+      instructions: data.analyzedInstructions.length
+        ? data.analyzedInstructions[0].steps.map((step) => step.step)
+        : ["No instructions available."],
+    };
+  } catch (error) {
+    console.error("Error fetching recipe details:", error);
+    return null;
+  }
+};
 
 /**
  * Fetch random popular recipes
@@ -70,7 +94,7 @@ export const fetchPopularRecipes = async () => {
 
     return response.data.recipes.map(recipe => ({
       id: recipe.id,
-      title: stripHtml(recipe.title), // ✅ Fix title formatting in popular recipes too
+      title: stripHtml(recipe.title),
       image: recipe.image,
       description: stripHtml(recipe.summary) || "No description available",
       readyInMinutes: recipe.readyInMinutes,
