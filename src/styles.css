@@ -312,36 +312,35 @@
 /*-------------------------------------------------------------*/
 
 .accordion-button {
-  background: #f9e389 !important; /* ✅ Yellow background */
+  background: #f9e389 !important; /* Yellow background */
   color: black !important;
-  font-weight: normal !important; /* ✅ No bold text */
+  font-weight: normal !important; 
   border: none;
   box-shadow: none !important;
-  padding: 6px 12px !important; /* ✅ Smaller padding */
-  font-size: 0.85rem !important; /* ✅ Reduce font size */
-  height: 35px !important; /* ✅ Reduce button height */
+  padding: 6px 12px !important; 
+  font-size: 0.85rem !important; 
+  height: 35px !important;
   display: flex;
-  align-items: center; /* ✅ Ensures text stays vertically aligned */
+  align-items: center; 
 }
 
-/* ✅ Maintain spacing inside button */
 .accordion-button::after {
-  margin-left: 8px !important; /* ✅ Ensures gap between text and arrow */
-  transform: scale(0.85); /* ✅ Make the arrow smaller */
+  margin-left: 8px !important; 
+  transform: scale(0.85); /* Make the arrow smaller */
 }
 
-/* ✅ When accordion is open, keep it a bit transparent */
+/* When accordion is open, keep it a bit transparent */
 .accordion-button:not(.collapsed) {
-  background: rgba(249, 227, 137, 0.7) !important; /* ✅ Yellow transparent */
+  background: rgba(249, 227, 137, 0.7) !important; 
   color: black !important;
 }
 
-/* ✅ Keep the same size when accordion is closed */
+/* Keep the same size when accordion is closed */
 .accordion-button.collapsed {
-  min-height: 35px !important; /* ✅ Ensures no resizing */
+  min-height: 35px !important; /* Ensures no resizing */
 }
 
-/* ✅ Remove default border */
+
 .accordion-item {
   border: none !important;
 }
@@ -351,14 +350,13 @@
 .filters-bar {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* ✅ Ensure everything aligns to the left */
+  align-items: flex-start;
   background: white;
   padding: 15px;
   border-radius: 8px;
   width: 100%;
 }
 
-/* ✅ Left-align category titles */
 .filter-category {
   width: 100%;
   margin-bottom: 10px;
@@ -369,25 +367,24 @@
   font-size: 1rem;
   font-weight: bold;
   margin-bottom: 5px;
-  text-align: left; /* ✅ Left-align the title */
-  width: 100%;
+  text-align: left; 
 }
 
-/* ✅ Left-align checkbox groups */
+/* Left-align checkbox groups */
 .filter-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* ✅ Adds spacing between checkboxes */
+  gap: 10px;
   align-items: center;
-  justify-content: flex-start; /* ✅ Align checkboxes to the left */
+  justify-content: flex-start; 
   width: 100%;
 }
 
 /* ✅ Adjust Checkbox Input */
 .filter-checkbox .form-check-input {
-  border-color: black !important; /* ✅ Black border */
+  border-color: black !important; 
   cursor: pointer;
-  width: 16px; /* ✅ Reduce size slightly */
+  width: 16px; 
   height: 16px;
 }
 
@@ -414,9 +411,9 @@
   border: none;
   margin-top: 10px;
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
-  font-size: 0.85rem; /* ✅ Smaller button text */
-  padding: 6px 12px; /* ✅ Smaller button size */
-  border-radius: 6px; /* ✅ Adjust button shape */
+  font-size: 0.85rem; 
+  padding: 6px 12px; 
+  border-radius: 6px; 
 }
 
 .clear-filters-button:hover {
