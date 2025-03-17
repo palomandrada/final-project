@@ -135,7 +135,7 @@ const SearchResults = () => {
             {/* ✅ Popular Recipes Section (Only if no search has been made) */}
             {showPopular && popularRecipes.length > 0 && (
               <Container className="recipe-results">
-                <h3 className="text-dark text-center mt-4">🍽️ Searching for ideas? Try these tasty recipes</h3>
+                <h3 className="text-dark text-center">🍽️ Searching for ideas? Try these tasty recipes</h3>
                 <Row className="g-4">
                   {popularRecipes.map((recipe) => (
                     <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}>

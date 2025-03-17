@@ -22,7 +22,7 @@
 
 /* Black Navbar for Other Pages */
 .navbar-black {
-  background: rgb(33, 33, 33) !important;
+  background: rgb(11, 11, 11) !important;
 }
 
 .navbar-custom .nav-link {
@@ -91,7 +91,7 @@
 /*-------------------------------------------------------------*/
 
 .search-results-bg {
-  background: url('/public/img/TryRecipesBackground.jpg');
+  background: url('/public/img/TryRecipesBackground.jpeg') no-repeat center/cover;
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -117,12 +117,10 @@
 
 /* Search bar styling */
 .search-box {
-  background: rgba(33, 33, 33); /* Dark background for contrast */
+  background: rgb(11, 11, 11, 0.4); 
   padding: 20px 40px;
-  border-radius: 10px;
-  max-width: 800px;
-  width: 90%;
-  margin-top: 120px;
+  width: 100%;
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
