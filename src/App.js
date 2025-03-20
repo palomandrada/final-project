@@ -4,6 +4,10 @@ import NavigationBar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./pages/SearchResults"; 
 import RecipeDetails from "./pages/RecipeDetails";
+
+// ✅ Fix this when Fav page finished
+import Favorites from "./pages/Favorites"; 
+
 import { fetchRecipes } from "./api/recipes";
 import "./styles.css";
 
@@ -44,7 +48,7 @@ const App = () => {
         state: { 
           recipes: fetchedRecipes, 
           fromSearch: true, 
-          searchQuery: query // ✅ Pass searchQuery
+          searchQuery: query 
         } 
       });
     } catch (error) {
@@ -58,7 +62,6 @@ const App = () => {
       <div className="background" style={{ backgroundImage: `url(${backgroundImages[currentBackground]})` }}></div>
       <NavigationBar />
 
-      {/* Show search bar only on homepage */}
       {location.pathname === "/" && (
         <div className="search-container">
           <h1 className="text-white">Find Your Perfect Recipe</h1>
@@ -66,11 +69,14 @@ const App = () => {
         </div>
       )}
 
-<Routes>
-  <Route path="/" element={<div />} /> {/* Home Page */}
-  <Route path="/search" element={<SearchResults />} /> {/* Search Page */}
-  <Route path="/recipe/:id" element={<RecipeDetails />} /> {/* Recipe Details Page */}
-</Routes>
+      <Routes>
+        <Route path="/" element={<div />} /> {/* Home Page */}
+        <Route path="/search" element={<SearchResults />} /> 
+        <Route path="/recipe/:id" element={<RecipeDetails />} /> 
+
+        {/* ✅ Fix: Ensure `Favorites` route is safe */}
+        <Route path="/favorites" element={Favorites ? <Favorites /> : <div>Favorites Page Not Found</div>} /> 
+      </Routes>
     </div>
   );
 };

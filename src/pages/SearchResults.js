@@ -77,7 +77,7 @@ const SearchResults = () => {
                 <h3 className="text-dark text-center mt-4">Recipes with {searchQuery}:</h3>
               )}
 
-              {/* ✅ Filters ALWAYS remain visible, even when no recipes match */}
+              {/* ✅ Filters ALWAYS remain visible if a search was made, even if filtering removes all results */}
               {hasSearched && (
                 <Accordion defaultActiveKey={null} className="filters-accordion mt-3">
                   <Accordion.Item eventKey="0">
@@ -128,7 +128,11 @@ const SearchResults = () => {
                 </Row>
               ) : (
                 /* ✅ Show "No recipes found" message only after a search */
-                hasSearched && <p className="text-dark mt-3 text-center">Sorry! We could not find any recipes.</p>
+                hasSearched && (
+                  <>
+                    <p className="text-dark mt-3 text-center">Sorry! We could not find any recipes.</p>
+                  </>
+                )
               )}
             </Container>
 
@@ -153,4 +157,3 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
-

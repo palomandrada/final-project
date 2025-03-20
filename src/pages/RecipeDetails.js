@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Badge } from "react-bootstrap";
-import { fetchRecipeDetails } from "../api/recipes"; // ✅ Import the function
+import { Container, Row, Col, Button, Badge, Spinner } from "react-bootstrap";
+import { fetchRecipeDetails } from "../api/recipes";
 import "../styles.css";
 
 const RecipeDetails = () => {
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadRecipe = async () => {
-      const fetchedRecipe = await fetchRecipeDetails(id); // ✅ Fetch recipe details
+      const fetchedRecipe = await fetchRecipeDetails(id);
       setRecipe(fetchedRecipe);
       setLoading(false);
     };
@@ -22,11 +21,16 @@ const RecipeDetails = () => {
   }, [id]);
 
   const handleGoBack = () => {
-    navigate(-1); // ✅ Returns to the previous page while keeping filters & search
+    navigate(-1);
   };
 
   if (loading) {
-    return <p className="text-center mt-5">Loading recipe...</p>;
+    return (
+      <div className="loading-container">
+        <Spinner animation="border" variant="warning" />
+        <p>Loading recipe...</p>
+      </div>
+    );
   }
 
   if (!recipe) {
@@ -40,6 +44,7 @@ const RecipeDetails = () => {
 
   return (
     <div className="recipe-details-page">
+      {/* ✅ Full-width background image */}
       <div className="recipe-details-header" style={{ backgroundImage: `url(${recipe.image})` }}>
         <div className="overlay">
           <Button variant="dark" onClick={handleGoBack} className="go-back-button">← Go Back</Button>
@@ -54,27 +59,33 @@ const RecipeDetails = () => {
         </div>
       </div>
 
-      <Container className="recipe-content mt-4">
+      <div className="recipe-content">
         <Row>
+          {/* ✅ Left Section: Ingredients */}
           <Col lg={4} className="ingredients-section">
             <h3>Ingredients</h3>
             <ul className="ingredients-list">
-              {recipe.ingredients?.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
-              ))}
+              {recipe.ingredients?.length > 0 ? (
+                recipe.ingredients.map((ingredient, index) => <li key={index}>{ingredient}</li>)
+              ) : (
+                <p>No ingredients available.</p>
+              )}
             </ul>
           </Col>
 
+          {/* ✅ Right Section: Instructions */}
           <Col lg={8} className="instructions-section">
             <h3>Instructions</h3>
-            <ol className="instructions-list">
-              {recipe.instructions?.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
+            {recipe.instructions?.length > 0 ? (
+              <ol className="instructions-list">
+                {recipe.instructions.map((step, index) => <li key={index}>{step}</li>)}
+              </ol>
+            ) : (
+              <p>No instructions available.</p>
+            )}
           </Col>
         </Row>
-      </Container>
+      </div>
     </div>
   );
 };

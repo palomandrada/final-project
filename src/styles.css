@@ -12,7 +12,13 @@
 
 .navbar-custom {
   width: 100%;
-  padding: 15px 20px;
+  padding: 0px 20px 0px 20px
+}
+
+/* Highlight the active page in the navbar */
+.active-link {
+  font-weight: bold; /*  Make text bold */
+  border-bottom: 2px solid #f9e389; /* Add a yellow underline */
 }
 
 /* Transparent Navbar for Homepage */
@@ -26,9 +32,9 @@
 }
 
 .navbar-custom .nav-link {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1rem;
   transition: color 0.3s ease-in-out;
+  padding: 22px;
 }
 
 .navbar-custom .nav-link:hover,
@@ -39,6 +45,37 @@
 /* Navbar toggler (hamburger menu) icon color */
 .custom-toggler .navbar-toggler-icon {
   filter: brightness(0) invert(1);
+}
+
+/* Style for the navbar links */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* ✅ Spacing between text and circle */
+  color: white !important;
+  font-size: 1.2rem;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Default: Outlined circle */
+.nav-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white; /* Default: White outline */
+  background-color: transparent; /* Transparent center */
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+/* Active: Solid yellow */
+.active-circle {
+  background-color: white !important;
+  border-color: white !important;
+}
+
+/* Hover: Solid white */
+.nav-item:hover .nav-circle {
+  background-color: #f9e389 !important;
 }
 
 /*-------------------------------------------------------------*/
@@ -91,12 +128,14 @@
 /*-------------------------------------------------------------*/
 
 .search-results-bg {
-  background: url('/public/img/TryRecipesBackground.jpeg') no-repeat center/cover;
-  min-height: 100vh;
+  background: url('/public/img/TryRecipesBackground.jpg') no-repeat center/cover fixed;
+  min-height: 100vh;  /*  Ensure it covers the screen */
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start; /* Prevents content from shifting */
+  overflow-y: auto; /*  Allows scrolling when needed */
 }
 
 /*-------------------------------------------------------------*/
@@ -419,3 +458,175 @@
   color: #f9e389;
 }
 
+/*-------------------------------------------------------------*/
+/* 🟡 RECIPE DETAILS PAGE */
+/*-------------------------------------------------------------*/
+
+/* ✅ Ensure full-page width */
+.recipe-details-page {
+  background: white;
+  padding-top: 80px; /* Prevents navbar overlap */
+  padding-bottom: 50px;
+  width: 100vw; /* ✅ Ensures it takes full width */
+  max-width: 100%;
+  display: block; /* ✅ Removes Bootstrap flexbox limitations */
+}
+
+/* ✅ Full-width recipe image */
+.recipe-details-header {
+  width: 100vw; /* ✅ Ensures full viewport width */
+  height: 400px; /* Adjust height if needed */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* ✅ Overlay for text & button */
+.recipe-details-header .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for readability */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 50px 20px;
+}
+
+/* ✅ Go Back Button */
+.go-back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.go-back-button:hover {
+  background: #f9e389;
+  color: black;
+}
+
+/* ✅ Recipe Title */
+.recipe-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ✅ Recipe Tags */
+.recipe-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.recipe-tag {
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 0.85rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* ✅ Main Recipe Content */
+.recipe-content {
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: block; /* ✅ Removes flexbox to allow full width */
+}
+
+/* ✅ Left Section: Ingredients */
+.ingredients-section {
+  width: 100%;
+  max-width: 350px;
+  padding-right: 20px;
+}
+
+/* ✅ Ingredients Header: Gray & Carrot Icon */
+.ingredients-section h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: gray; /* ✅ Gray color for "Ingredients" */
+  display: flex;
+  align-items: center;
+}
+
+/* ✅ Carrot Icon Next to Ingredients */
+.ingredients-section h3::before {
+  content: "🥕"; /* Carrot icon */
+  font-size: 1.3rem;
+  margin-right: 8px;
+}
+
+/* ✅ Ingredients List */
+.ingredients-list {
+  list-style: none;
+  padding-left: 0;
+  font-size: 0.95rem; /* ✅ Smaller text */
+  text-align: left; /* ✅ Left-aligned */
+}
+
+.ingredients-list li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* ✅ Right Section: Instructions */
+.instructions-section {
+  width: 100%;
+  max-width: 700px;
+}
+
+/* ✅ Instructions Header: Bigger than Ingredients */
+.instructions-section h3 {
+  font-size: 1.5rem; /* ✅ Larger than "Ingredients" */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ✅ Instructions List */
+.instructions-list {
+  text-align: left; /* ✅ Left-aligned */
+  padding-left: 20px;
+}
+
+.instructions-list li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* ✅ Responsive Fixes */
+@media (max-width: 768px) {
+  .recipe-content {
+    padding: 15px;
+  }
+
+  .recipe-title {
+    font-size: 1.6rem;
+  }
+
+  .ingredients-section {
+    max-width: 100%; /* ✅ Full width on mobile */
+  }
+
+  .instructions-section {
+    max-width: 100%; /* ✅ Full width on mobile */
+  }
+}

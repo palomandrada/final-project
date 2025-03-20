@@ -11,7 +11,7 @@ const stripHtml = (html) => {
 };
 
 /**
- * Fetch recipes based on ingredients
+ * ✅ Fetch recipes based on ingredients
  */
 export const fetchRecipes = async (ingredients) => {
   try {
@@ -28,19 +28,15 @@ export const fetchRecipes = async (ingredients) => {
         params: { apiKey: API_KEY }
       });
 
-      const recipeTags = [
-        ...(detailsResponse.data.diets || []),
-        ...(detailsResponse.data.dishTypes || []),
-        ...(detailsResponse.data.cuisines || [])
-      ].filter(tag => tag); // ✅ Removes empty values
+      const data = detailsResponse.data;
 
       return {
         id: recipe.id,
         title: recipe.title,
         image: recipe.image,
-        readyInMinutes: detailsResponse.data.readyInMinutes,
-        servings: detailsResponse.data.servings,
-        tags: recipeTags,
+        readyInMinutes: data.readyInMinutes || "N/A",
+        servings: data.servings || "N/A",
+        tags: [...(data.diets || []), ...(data.dishTypes || []), ...(data.cuisines || [])].filter(Boolean),
       };
     }));
 
@@ -52,7 +48,7 @@ export const fetchRecipes = async (ingredients) => {
 };
 
 /**
- * Fetch full recipe details by ID
+ * ✅ Fetch full recipe details by ID (Ensures no crashes)
  */
 export const fetchRecipeDetails = async (id) => {
   try {
@@ -66,11 +62,11 @@ export const fetchRecipeDetails = async (id) => {
       id: data.id,
       title: data.title,
       image: data.image,
-      readyInMinutes: data.readyInMinutes,
-      servings: data.servings,
-      tags: [...(data.diets || []), ...(data.dishTypes || []), ...(data.cuisines || [])],
-      ingredients: data.extendedIngredients.map((ingredient) => ingredient.original),
-      instructions: data.analyzedInstructions.length
+      readyInMinutes: data.readyInMinutes || "N/A",
+      servings: data.servings || "N/A",
+      tags: [...(data.diets || []), ...(data.dishTypes || []), ...(data.cuisines || [])].filter(Boolean),
+      ingredients: data.extendedIngredients?.map((ingredient) => ingredient.original) || ["No ingredients available."],
+      instructions: data.analyzedInstructions?.length > 0
         ? data.analyzedInstructions[0].steps.map((step) => step.step)
         : ["No instructions available."],
     };
@@ -80,8 +76,9 @@ export const fetchRecipeDetails = async (id) => {
   }
 };
 
+
 /**
- * Fetch random popular recipes
+ * ✅ Fetch random popular recipes
  */
 export const fetchPopularRecipes = async () => {
   try {
@@ -97,9 +94,9 @@ export const fetchPopularRecipes = async () => {
       title: stripHtml(recipe.title),
       image: recipe.image,
       description: stripHtml(recipe.summary) || "No description available",
-      readyInMinutes: recipe.readyInMinutes,
-      servings: recipe.servings,
-      tags: [...recipe.diets, ...recipe.dishTypes, ...recipe.cuisines].filter(tag => tag)
+      readyInMinutes: recipe.readyInMinutes || "N/A",
+      servings: recipe.servings || "N/A",
+      tags: [...recipe.diets, ...recipe.dishTypes, ...recipe.cuisines].filter(Boolean)
     }));
   } catch (error) {
     console.error("Error fetching popular recipes:", error);
