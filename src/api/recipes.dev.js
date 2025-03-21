@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchPopularRecipes = exports.fetchRecipeDetails = exports.fetchRecipes = void 0;
+exports.fetchRecipesByTags = exports.fetchPopularRecipes = exports.fetchRecipeDetails = exports.fetchRecipes = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -17,7 +17,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var API_KEY = "44123451b6b1434896b7920b7b68173f";
+var API_KEY = "52629ed0202749539cb832fe52e74cf2";
 var API_URL = "https://api.spoonacular.com/recipes";
 /**
  * ✅ Utility function to remove HTML tags
@@ -27,7 +27,7 @@ var stripHtml = function stripHtml(html) {
   return html.replace(/<[^>]*>/g, ""); // Removes all HTML tags
 };
 /**
- * Fetch recipes based on ingredients
+ * ✅ Fetch recipes based on ingredients
  */
 
 
@@ -65,10 +65,7 @@ var fetchRecipes = function fetchRecipes(ingredients) {
 
                   case 2:
                     detailsResponse = _context.sent;
-                    recipeTags = [].concat(_toConsumableArray(detailsResponse.data.diets || []), _toConsumableArray(detailsResponse.data.dishTypes || []), _toConsumableArray(detailsResponse.data.cuisines || [])).filter(function (tag) {
-                      return tag;
-                    }); // ✅ Removes empty values
-
+                    recipeTags = [].concat(_toConsumableArray(detailsResponse.data.diets || []), _toConsumableArray(detailsResponse.data.dishTypes || []), _toConsumableArray(detailsResponse.data.cuisines || [])).filter(Boolean);
                     return _context.abrupt("return", {
                       id: recipe.id,
                       title: recipe.title,
@@ -104,7 +101,7 @@ var fetchRecipes = function fetchRecipes(ingredients) {
   }, null, null, [[0, 10]]);
 };
 /**
- * Fetch full recipe details by ID
+ * ✅ Fetch full recipe details by ID
  */
 
 
@@ -133,7 +130,7 @@ var fetchRecipeDetails = function fetchRecipeDetails(id) {
             image: data.image,
             readyInMinutes: data.readyInMinutes,
             servings: data.servings,
-            tags: [].concat(_toConsumableArray(data.diets || []), _toConsumableArray(data.dishTypes || []), _toConsumableArray(data.cuisines || [])),
+            tags: [].concat(_toConsumableArray(data.diets || []), _toConsumableArray(data.dishTypes || []), _toConsumableArray(data.cuisines || [])).filter(Boolean),
             ingredients: data.extendedIngredients.map(function (ingredient) {
               return ingredient.original;
             }),
@@ -156,7 +153,7 @@ var fetchRecipeDetails = function fetchRecipeDetails(id) {
   }, null, null, [[0, 8]]);
 };
 /**
- * Fetch random popular recipes
+ * ✅ Fetch random popular recipes
  */
 
 
@@ -187,9 +184,7 @@ var fetchPopularRecipes = function fetchPopularRecipes() {
               description: stripHtml(recipe.summary) || "No description available",
               readyInMinutes: recipe.readyInMinutes,
               servings: recipe.servings,
-              tags: [].concat(_toConsumableArray(recipe.diets), _toConsumableArray(recipe.dishTypes), _toConsumableArray(recipe.cuisines)).filter(function (tag) {
-                return tag;
-              })
+              tags: [].concat(_toConsumableArray(recipe.diets), _toConsumableArray(recipe.dishTypes), _toConsumableArray(recipe.cuisines)).filter(Boolean)
             };
           }));
 
@@ -206,5 +201,58 @@ var fetchPopularRecipes = function fetchPopularRecipes() {
     }
   }, null, null, [[0, 7]]);
 };
+/**
+ * ✅ Fetch recipes by tags (e.g., dish types or diets)
+ */
+
 
 exports.fetchPopularRecipes = fetchPopularRecipes;
+
+var fetchRecipesByTags = function fetchRecipesByTags() {
+  var tags,
+      response,
+      _args5 = arguments;
+  return regeneratorRuntime.async(function fetchRecipesByTags$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          tags = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : [];
+          _context5.prev = 1;
+          _context5.next = 4;
+          return regeneratorRuntime.awrap(_axios["default"].get("".concat(API_URL, "/complexSearch"), {
+            params: {
+              number: 4,
+              addRecipeInformation: true,
+              tags: tags.join(","),
+              apiKey: API_KEY
+            }
+          }));
+
+        case 4:
+          response = _context5.sent;
+          return _context5.abrupt("return", response.data.results.map(function (recipe) {
+            return {
+              id: recipe.id,
+              title: recipe.title,
+              image: recipe.image,
+              readyInMinutes: recipe.readyInMinutes,
+              servings: recipe.servings,
+              tags: [].concat(_toConsumableArray(recipe.diets), _toConsumableArray(recipe.dishTypes), _toConsumableArray(recipe.cuisines)).filter(Boolean)
+            };
+          }));
+
+        case 8:
+          _context5.prev = 8;
+          _context5.t0 = _context5["catch"](1);
+          console.error("Error fetching similar recipes by tags:", _context5.t0);
+          return _context5.abrupt("return", []);
+
+        case 12:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+};
+
+exports.fetchRecipesByTags = fetchRecipesByTags;

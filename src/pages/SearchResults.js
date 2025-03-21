@@ -34,6 +34,7 @@ const SearchResults = () => {
       setShowPopular(false);
       setHasSearched(true);
       setSearchQuery(query);
+      setSelectedFilters([]); // Reset filters on new search
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
@@ -41,7 +42,9 @@ const SearchResults = () => {
 
   const handleFilterChange = (tag) => {
     setSelectedFilters((prevFilters) =>
-      prevFilters.includes(tag) ? prevFilters.filter((t) => t !== tag) : [...prevFilters, tag]
+      prevFilters.includes(tag)
+        ? prevFilters.filter((t) => t !== tag)
+        : [...prevFilters, tag]
     );
   };
 
@@ -50,7 +53,9 @@ const SearchResults = () => {
   };
 
   const filteredRecipes = selectedFilters.length
-    ? recipes.filter((recipe) => recipe.tags?.some((tag) => selectedFilters.includes(tag)))
+    ? recipes.filter((recipe) =>
+        recipe.tags?.some((tag) => selectedFilters.includes(tag))
+      )
     : recipes;
 
   const filterCategories = {
@@ -74,11 +79,13 @@ const SearchResults = () => {
             <Container className="recipe-results">
               {/* ✅ Show title only if a search has been made */}
               {hasSearched && (
-                <h3 className="text-dark text-center mt-4">Recipes with {searchQuery}:</h3>
+                <h3 className="text-dark text-center mt-4">
+                  Recipes with {searchQuery}:
+                </h3>
               )}
 
-              {/* ✅ Filters ALWAYS remain visible if a search was made, even if filtering removes all results */}
-              {hasSearched && (
+              {/* ✅ Filters appear ONLY if there are results or active filters */}
+              {hasSearched && (recipes.length > 0 || selectedFilters.length > 0) && (
                 <Accordion defaultActiveKey={null} className="filters-accordion mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Filters</Accordion.Header>
@@ -86,8 +93,8 @@ const SearchResults = () => {
                       <div className="filters-bar">
                         {Object.entries(filterCategories).map(([category, tags]) => (
                           <div key={category} className="filter-category">
-                            <h6>{category}</h6> {/* ✅ Left-aligned title */}
-                            <div className="filter-options"> {/* ✅ Left-aligned checkbox group */}
+                            <h6>{category}</h6>
+                            <div className="filter-options">
                               {tags.map((tag) => (
                                 <Form.Check
                                   inline
@@ -104,10 +111,13 @@ const SearchResults = () => {
                         ))}
                       </div>
 
-                      {/* ✅ Show Clear Filters button only when filters are active */}
                       {selectedFilters.length > 0 && (
                         <div className="text-center mt-3">
-                          <Button variant="dark" onClick={clearAllFilters} className="clear-filters-button">
+                          <Button
+                            variant="dark"
+                            onClick={clearAllFilters}
+                            className="clear-filters-button"
+                          >
                             Clear All Filters
                           </Button>
                         </div>
@@ -127,11 +137,10 @@ const SearchResults = () => {
                   ))}
                 </Row>
               ) : (
-                /* ✅ Show "No recipes found" message only after a search */
-                hasSearched && (
-                  <>
-                    <p className="text-dark mt-3 text-center">Sorry! We could not find any recipes.</p>
-                  </>
+                hasSearched && recipes.length === 0 && selectedFilters.length === 0 && (
+                  <p className="text-dark mt-3 text-center">
+                    Sorry! We could not find any recipes.
+                  </p>
                 )
               )}
             </Container>
@@ -139,7 +148,9 @@ const SearchResults = () => {
             {/* ✅ Popular Recipes Section (Only if no search has been made) */}
             {showPopular && popularRecipes.length > 0 && (
               <Container className="recipe-results">
-                <h3 className="text-dark text-center">🍽️ Searching for ideas? Try these tasty recipes</h3>
+                <h3 className="text-dark text-center">
+                  🍽️ Searching for ideas? Try these tasty recipes
+                </h3>
                 <Row className="g-4">
                   {popularRecipes.map((recipe) => (
                     <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}>

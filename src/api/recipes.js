@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = "44123451b6b1434896b7920b7b68173f";
+const API_KEY = "52629ed0202749539cb832fe52e74cf2";
 const API_URL = "https://api.spoonacular.com/recipes";
 
 /**
@@ -17,28 +17,34 @@ export const fetchRecipes = async (ingredients) => {
   try {
     const response = await axios.get(`${API_URL}/findByIngredients`, {
       params: {
-        ingredients: ingredients, 
-        number: 10, 
+        ingredients,
+        number: 10,
         apiKey: API_KEY,
       },
     });
 
-    const detailedRecipes = await Promise.all(response.data.map(async (recipe) => {
-      const detailsResponse = await axios.get(`${API_URL}/${recipe.id}/information`, {
-        params: { apiKey: API_KEY }
-      });
+    const detailedRecipes = await Promise.all(
+      response.data.map(async (recipe) => {
+        const detailsResponse = await axios.get(`${API_URL}/${recipe.id}/information`, {
+          params: { apiKey: API_KEY },
+        });
 
-      const data = detailsResponse.data;
+        const recipeTags = [
+          ...(detailsResponse.data.diets || []),
+          ...(detailsResponse.data.dishTypes || []),
+          ...(detailsResponse.data.cuisines || []),
+        ].filter(Boolean);
 
-      return {
-        id: recipe.id,
-        title: recipe.title,
-        image: recipe.image,
-        readyInMinutes: data.readyInMinutes || "N/A",
-        servings: data.servings || "N/A",
-        tags: [...(data.diets || []), ...(data.dishTypes || []), ...(data.cuisines || [])].filter(Boolean),
-      };
-    }));
+        return {
+          id: recipe.id,
+          title: recipe.title,
+          image: recipe.image,
+          readyInMinutes: detailsResponse.data.readyInMinutes,
+          servings: detailsResponse.data.servings,
+          tags: recipeTags,
+        };
+      })
+    );
 
     return detailedRecipes;
   } catch (error) {
@@ -48,7 +54,7 @@ export const fetchRecipes = async (ingredients) => {
 };
 
 /**
- * ✅ Fetch full recipe details by ID (Ensures no crashes)
+ * ✅ Fetch full recipe details by ID
  */
 export const fetchRecipeDetails = async (id) => {
   try {
@@ -62,11 +68,11 @@ export const fetchRecipeDetails = async (id) => {
       id: data.id,
       title: data.title,
       image: data.image,
-      readyInMinutes: data.readyInMinutes || "N/A",
-      servings: data.servings || "N/A",
+      readyInMinutes: data.readyInMinutes,
+      servings: data.servings,
       tags: [...(data.diets || []), ...(data.dishTypes || []), ...(data.cuisines || [])].filter(Boolean),
-      ingredients: data.extendedIngredients?.map((ingredient) => ingredient.original) || ["No ingredients available."],
-      instructions: data.analyzedInstructions?.length > 0
+      ingredients: data.extendedIngredients.map((ingredient) => ingredient.original),
+      instructions: data.analyzedInstructions.length
         ? data.analyzedInstructions[0].steps.map((step) => step.step)
         : ["No instructions available."],
     };
@@ -75,7 +81,6 @@ export const fetchRecipeDetails = async (id) => {
     return null;
   }
 };
-
 
 /**
  * ✅ Fetch random popular recipes
@@ -89,17 +94,46 @@ export const fetchPopularRecipes = async () => {
       },
     });
 
-    return response.data.recipes.map(recipe => ({
+    return response.data.recipes.map((recipe) => ({
       id: recipe.id,
       title: stripHtml(recipe.title),
       image: recipe.image,
       description: stripHtml(recipe.summary) || "No description available",
-      readyInMinutes: recipe.readyInMinutes || "N/A",
-      servings: recipe.servings || "N/A",
-      tags: [...recipe.diets, ...recipe.dishTypes, ...recipe.cuisines].filter(Boolean)
+      readyInMinutes: recipe.readyInMinutes,
+      servings: recipe.servings,
+      tags: [...recipe.diets, ...recipe.dishTypes, ...recipe.cuisines].filter(Boolean),
     }));
   } catch (error) {
     console.error("Error fetching popular recipes:", error);
     return [];
   }
 };
+
+/**
+ * ✅ Fetch recipes by tags (e.g., dish types or diets)
+ */
+export const fetchRecipesByTags = async (tags = []) => {
+  try {
+    const response = await axios.get(`${API_URL}/complexSearch`, {
+      params: {
+        number: 4,
+        addRecipeInformation: true,
+        tags: tags.join(","),
+        apiKey: API_KEY,
+      },
+    });
+
+    return response.data.results.map(recipe => ({
+      id: recipe.id,
+      title: recipe.title,
+      image: recipe.image,
+      readyInMinutes: recipe.readyInMinutes,
+      servings: recipe.servings,
+      tags: [...recipe.diets, ...recipe.dishTypes, ...recipe.cuisines].filter(Boolean),
+    }));
+  } catch (error) {
+    console.error("Error fetching similar recipes by tags:", error);
+    return [];
+  }
+};
+
