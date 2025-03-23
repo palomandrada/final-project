@@ -4,9 +4,9 @@ import NavigationBar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./pages/SearchResults"; 
 import RecipeDetails from "./pages/RecipeDetails";
-
-// ✅ Fix this when Fav page finished
 import Favorites from "./pages/Favorites"; 
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 import { fetchRecipes } from "./api/recipes";
 import "./styles.css";
@@ -72,10 +72,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<div />} /> {/* Home Page */}
         <Route path="/search" element={<SearchResults />} /> 
-        <Route path="/recipe/:id" element={<RecipeDetails />} /> 
-
-        {/* ✅ Fix: Ensure `Favorites` route is safe */}
-        <Route path="/favorites" element={Favorites ? <Favorites /> : <div>Favorites Page Not Found</div>} /> 
+        <Route path="/recipe/:id" element={<RecipeDetails />} />
+        <Route path="/favorites" element={<Favorites />} /> 
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </div>
   );
