@@ -3,7 +3,7 @@ import { Form, Button, Alert } from "react-bootstrap";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles.css";
+import '../styles/main.scss';
 
 const Signup = () => {
   const [email, setEmail] = useState("");

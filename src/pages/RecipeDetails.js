@@ -7,7 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
 import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import "../styles.css";
+import '../styles/main.scss';
 
 const RecipeDetails = () => {
   const { id } = useParams();

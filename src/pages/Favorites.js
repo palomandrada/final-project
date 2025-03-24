@@ -5,7 +5,7 @@ import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard";
-import "../styles.css";
+import '../styles/main.scss';
 
 const Favorites = () => {
   const { user } = useAuth();

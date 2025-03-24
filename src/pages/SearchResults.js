@@ -5,7 +5,7 @@ import NavigationBar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import RecipeCard from "../components/RecipeCard";
 import { fetchRecipes, fetchPopularRecipes } from "../api/recipes";
-import "../styles.css";
+import '../styles/main.scss';
 
 const SearchResults = () => {
   const location = useLocation();

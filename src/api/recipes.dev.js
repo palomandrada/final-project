@@ -17,7 +17,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var API_KEY = "52629ed0202749539cb832fe52e74cf2";
+var API_KEY = "44123451b6b1434896b7920b7b68173f";
 var API_URL = "https://api.spoonacular.com/recipes";
 /**
  * ✅ Utility function to remove HTML tags

@@ -1,0 +1,155 @@
+.recipe-details-page {
+  background: white;
+  padding-top: 100px;
+  padding-bottom: 50px;
+  width: 100%;
+}
+
+.recipe-details-hero {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.recipe-hero-background {
+  height: 350px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+}
+
+.go-back-button-top {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  color: white;
+  z-index: 3;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: #f9e389;
+  }
+}
+
+.bounded-recipe-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  padding: 5px;
+  z-index: 2;
+}
+
+.recipe-title,
+.recipe-tags {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+.recipe-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 60px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 30px;
+
+  .recipe-tag {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+}
+
+.recipe-content {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+
+  .ingredients-section {
+    max-width: 350px;
+    margin-bottom: 30px;
+    text-align: left; 
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: gray;
+      text-align: left; 
+
+      &::before {
+        content: "🥕";
+        font-size: 1.3rem;
+        margin-right: 8px;
+      }
+    }
+
+    .ingredients-list {
+      list-style: none;
+      padding-left: 0;
+      text-align: left;
+
+      li {
+        padding: 5px 0;
+        border-bottom: 1px solid #eee;
+        text-align: left; 
+      }
+    }
+  }
+
+  .instructions-section {
+    max-width: 700px;
+    text-align: left; //  Force left alignment
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .instructions-list {
+      padding-left: 20px;
+      text-align: left;
+
+      li {
+        margin-bottom: 10px;
+        line-height: 1.5;
+        text-align: left;
+      }
+    }
+  }
+}

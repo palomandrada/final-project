@@ -5,7 +5,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
 import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
-import "../styles.css";
+import '../styles/main.scss';
 
 const RecipeCard = ({ recipe }) => {
   const navigate = useNavigate();
@@ -29,8 +29,7 @@ const RecipeCard = ({ recipe }) => {
 
   const toggleFavorite = async (e) => {
     e.stopPropagation();
-
-    if (!user) return; // Don't toggle if not logged in
+    if (!user) return;
 
     const favRef = doc(db, "users", user.uid, "favorites", recipe.id.toString());
 
@@ -52,16 +51,23 @@ const RecipeCard = ({ recipe }) => {
   return (
     <Card className="recipe-card bg-dark text-white" onClick={handleClick} style={{ cursor: "pointer" }}>
       <Card.Img src={recipe.image} alt={recipe.title} className="card-img" />
+
       {user ? renderHeart : (
         <OverlayTrigger
           placement="top"
           overlay={<Tooltip id={`tooltip-top`}>Login to save this recipe</Tooltip>}
         >
-          <div className="favorite-icon">{<FaRegHeart color="white" size={20} />}</div>
+          <div
+            className="favorite-icon"
+            onClick={(e) => e.stopPropagation()} // Prevent click from navigating
+          >
+            <FaRegHeart color="white" size={20} />
+          </div>
         </OverlayTrigger>
       )}
+
       <Card.ImgOverlay className="card-img-overlay">
-        <Card.Title className="recipe-title text-left">{recipe.title || "Untitled Recipe"}</Card.Title>
+        <Card.Title className="recipe-title">{recipe.title || "Untitled Recipe"}</Card.Title>
         <div className="recipe-tags">
           {recipe.readyInMinutes && <Badge className="recipe-tag">⏱ {recipe.readyInMinutes} min</Badge>}
           {recipe.servings && <Badge className="recipe-tag">🍽 {recipe.servings} servings</Badge>}

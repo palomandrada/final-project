@@ -1,0 +1,90 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar-custom {
+  width: 100%;
+  padding: 0px 20px;
+}
+
+.navbar-transparent {
+  background: transparent !important;
+}
+
+.navbar-black {
+  background: #0b0b0b !important;
+}
+
+.navbar-custom .nav-link {
+  font-size: 1rem;
+  transition: color 0.3s ease-in-out;
+  padding: 22px;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link:focus {
+  color: #f9e389 !important;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white !important;
+  font-size: 1.2rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: transparent;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.active-circle {
+  background-color: white !important;
+  border-color: white !important;
+}
+
+.nav-item:hover .nav-circle {
+  background-color: #f9e389 !important;
+}
+
+.auth-links {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.nav-auth-link {
+  font-size: 0.95rem;
+  color: white !important;
+  margin-left: 12px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+  background: transparent;
+  text-transform: uppercase;
+  font-weight: 500;
+  border: none;
+}
+
+.nav-auth-link:hover {
+  background: transparent;
+  color: #f9e389 !important;
+}
+
+.logout-link {
+  cursor: pointer;
+}

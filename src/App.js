@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 import { fetchRecipes } from "./api/recipes";
-import "./styles.css";
+import "./styles/main.scss";
 
 const backgroundImages = [
   "/img/background1.jpg",
