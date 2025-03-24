@@ -16,6 +16,12 @@ const SearchResults = () => {
   const [searchQuery, setSearchQuery] = useState(location.state?.searchQuery || "");
   const [selectedFilters, setSelectedFilters] = useState([]);
 
+  const filteredRecipes = selectedFilters.length
+    ? recipes.filter((recipe) =>
+        recipe.tags?.some((tag) => selectedFilters.includes(tag))
+      )
+    : recipes;
+
   useEffect(() => {
     if (recipes.length === 0 && showPopular) {
       const getPopularRecipes = async () => {
@@ -34,7 +40,6 @@ const SearchResults = () => {
       setShowPopular(false);
       setHasSearched(true);
       setSearchQuery(query);
-      setSelectedFilters([]); // Reset filters on new search
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
@@ -52,17 +57,13 @@ const SearchResults = () => {
     setSelectedFilters([]);
   };
 
-  const filteredRecipes = selectedFilters.length
-    ? recipes.filter((recipe) =>
-        recipe.tags?.some((tag) => selectedFilters.includes(tag))
-      )
-    : recipes;
-
   const filterCategories = {
     "Dish Type": ["beverage", "dinner", "dessert", "lunch", "main course", "main dish", "side dish"].sort(),
     "Allergens & Restrictions": ["dairy free", "gluten free", "lacto ovo vegetarian", "pescatarian", "vegan"].sort(),
     "Diet": ["fodmap friendly", "ketogenic", "paleolithic", "primal", "southern", "whole 30"].sort(),
   };
+
+  const showFilters = recipes.length > 0 || (selectedFilters.length > 0 && filteredRecipes.length === 0);
 
   return (
     <div className="app-container search-results-bg">
@@ -77,15 +78,12 @@ const SearchResults = () => {
         <Row>
           <Col>
             <Container className="recipe-results">
-              {/* ✅ Show title only if a search has been made */}
               {hasSearched && (
-                <h3 className="text-dark text-center mt-4">
-                  Recipes with {searchQuery}:
-                </h3>
+                <h3 className="text-dark text-center mt-4">Recipes with {searchQuery}:</h3>
               )}
 
-              {/* ✅ Filters appear ONLY if there are results or active filters */}
-              {hasSearched && (recipes.length > 0 || selectedFilters.length > 0) && (
+              {/* ✅ Show filters only if results OR filtering is active */}
+              {hasSearched && showFilters && (
                 <Accordion defaultActiveKey={null} className="filters-accordion mt-3">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header>Filters</Accordion.Header>
@@ -113,11 +111,7 @@ const SearchResults = () => {
 
                       {selectedFilters.length > 0 && (
                         <div className="text-center mt-3">
-                          <Button
-                            variant="dark"
-                            onClick={clearAllFilters}
-                            className="clear-filters-button"
-                          >
+                          <Button variant="dark" onClick={clearAllFilters} className="clear-filters-button">
                             Clear All Filters
                           </Button>
                         </div>
@@ -127,30 +121,26 @@ const SearchResults = () => {
                 </Accordion>
               )}
 
-              {/* ✅ Show Recipe Cards ONLY when there are results */}
-              {hasSearched && filteredRecipes.length > 0 ? (
-                <Row className={`g-4 mt-3 ${filteredRecipes.length === 1 ? "single-recipe-row" : ""}`}>
-                  {filteredRecipes.map((recipe) => (
-                    <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}>
-                      <RecipeCard recipe={recipe} />
-                    </Col>
-                  ))}
-                </Row>
-              ) : (
-                hasSearched && recipes.length === 0 && selectedFilters.length === 0 && (
-                  <p className="text-dark mt-3 text-center">
-                    Sorry! We could not find any recipes.
-                  </p>
+              {/* ✅ Recipe Cards or "No results" message */}
+              {hasSearched && (
+                filteredRecipes.length > 0 ? (
+                  <Row className={`g-4 mt-3 ${filteredRecipes.length === 1 ? "single-recipe-row" : ""}`}>
+                    {filteredRecipes.map((recipe) => (
+                      <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}>
+                        <RecipeCard recipe={recipe} />
+                      </Col>
+                    ))}
+                  </Row>
+                ) : (
+                  <p className="text-dark mt-3 text-center">Sorry! We could not find any recipes.</p>
                 )
               )}
             </Container>
 
-            {/* ✅ Popular Recipes Section (Only if no search has been made) */}
+            {/* ✅ Popular Recipes (if no search) */}
             {showPopular && popularRecipes.length > 0 && (
               <Container className="recipe-results">
-                <h3 className="text-dark text-center">
-                  🍽️ Searching for ideas? Try these tasty recipes
-                </h3>
+                <h3 className="text-dark text-center">🍽️ Searching for ideas? Try these tasty recipes</h3>
                 <Row className="g-4">
                   {popularRecipes.map((recipe) => (
                     <Col key={recipe.id} xs={12} sm={6} md={6} lg={6}>
